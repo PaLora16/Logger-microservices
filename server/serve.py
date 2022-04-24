@@ -11,6 +11,8 @@ from health_pb2_grpc import add_HealthServicer_to_server
 from servicers.health import HealthServicer
 from system_info_pb2_grpc import add_SystemInfoServicer_to_server
 from servicers.system_info import SystemInfoServicer
+from grpc_logger_pb2_grpc import add_LogServiceServicer_to_server
+from servicers.grpc_logger import WriteLogServicer
 
 GRPC_MAX_WORKERS = 10
 GRPC_INSECURE_PORT = 50050
@@ -60,11 +62,10 @@ class Server(object):
         return server_options
 
     def _add_servicers(self):
-        logger.info("Adding servicers")
-        logger.debug("Adding HealthServicer")
         add_HealthServicer_to_server(HealthServicer(), self._server)
-        logger.debug("Adding SystemInfoServicer")
         add_SystemInfoServicer_to_server(SystemInfoServicer(), self._server)
+        add_LogServiceServicer_to_server(WriteLogServicer(), self._server)
+        
 
     def setup_insecure_server(self):
         logger.info("Setting up an insecure server.")
