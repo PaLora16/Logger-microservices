@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+
+message LogMessage {
+  LogAgenda agenda = 1;
+  LogLevel level = 2;
+  string message = 3;
+}
+
+enum LogAgenda{
+  DEFAULT = 0;
+  HEALTH_CHECK = 1;
+   
+}
+
+enum LogLevel {
+  LOG_LEVEL_WARNING = 0;
+  LOG_LEVEL_INFO = 1;
+  LOG_LEVEL_ERROR = 2;
+  LOG_LEVEL_FATAL = 3;
+}
+
+enum LogRequestStatus
+{
+    STATUS_OK = 0;
+    STATUS_ERROR = 1;
+}
+
+message WriteLogRequest {
+  LogMessage log = 1;
+}
+
+message WriteLogResponse {
+  LogRequestStatus status = 1;
+}
+
+
+service LogService {
+  rpc WriteLog(WriteLogRequest) returns (WriteLogResponse) {}
+}
