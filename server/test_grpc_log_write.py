@@ -5,7 +5,7 @@ import time
 import grpc
 
 import grpc_logger_pb2_grpc
-from grpc_logger_pb2 import WriteLogResponse, WriteLogRequest
+from grpc_logger_pb2 import  WriteLogRequest, LogMessage, LogAgenda, LogLevel
 
 
 class TestClientGrpcWriteLog(object):
@@ -31,10 +31,19 @@ class TestClientGrpcWriteLog(object):
         #         )
         #     )
         # )
-        response = self.log_service_stub(WriteLogRequest())
+        request = WriteLogRequest(
+            log = LogMessage(
+                agenda = LogAgenda.DEFAULT,
+                level = LogLevel.LOG_LEVEL_ERROR,
+                message = "Please log me"
+            )
+            
+        )
+        response = self.log_service_stub.WriteLog(request)
         return response
 
 
 if __name__ == "__main__":
     client = TestClientGrpcWriteLog()
-    print(client.get_log_response())
+    response = client.get_log_response()
+    print(f"Response from server {response}")

@@ -1,7 +1,7 @@
 # from . import service_method
 # from logger import module_logger
 from grpc_logger_pb2_grpc import LogServiceServicer as grpc_LogServiceServicer
-from grpc_logger_pb2 import WriteLogResponse, LogRequestStatus
+from grpc_logger_pb2 import WriteLogResponse
 
 
 class WriteLogServicer(grpc_LogServiceServicer):
@@ -9,7 +9,7 @@ class WriteLogServicer(grpc_LogServiceServicer):
     #     self.logger = module_logger(__name__)
 
     # @service_method(logging=False)
-    def write_log(self, request, context):
+    def WriteLog(self, request, context):
         """
         Check connections to the service's dependencies, reporting the status:
             - database
@@ -19,4 +19,5 @@ class WriteLogServicer(grpc_LogServiceServicer):
             - external logger
             - etc.
         """
-        return WriteLogResponse(status_code=LogRequestStatus.STATUS_OK)
+        # return WriteLogResponse(status_code=LogRequestStatus.STATUS_OK)
+        return WriteLogResponse(status = "Response super OK")
