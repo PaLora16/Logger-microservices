@@ -1,11 +1,8 @@
 import time
-
-# from socket import gethostname, gethostbyname
-
 import grpc
 
-import grpc_logger_pb2_grpc
-from grpc_logger_pb2 import  WriteLogRequest, LogMessage, LogAgenda, LogLevel
+from grpc_logger_pb2_grpc import LogServiceStub
+from grpc_logger_pb2 import WriteLogRequest, LogMessage, LogAgenda, LogLevel
 
 
 class TestClientGrpcWriteLog(object):
@@ -14,33 +11,18 @@ class TestClientGrpcWriteLog(object):
         self.setup_stubs()
 
     def setup_stubs(self):
-        self.log_service_stub = grpc_logger_pb2_grpc.LogServiceStub(self.channel)
+        self.log_service_stub = LogServiceStub(self.channel)
 
     def get_log_response(self):
-        # hostname = gethostname()
-        # ip_addr = gethostbyname(hostname)
-        # response = self.system_info_stub.SystemInfo(
-        #     SystemInfoRequest(
-        #         client_info=ClientInfo(
-        #             host_info=HostInfo(
-        #                 hostname=hostname,
-        #                 ip_addr=ip_addr,
-        #                 port=50050,
-        #                 timestamp=int(time.time()),
-        #             )
-        #         )
-        #     )
-        # )
         request = WriteLogRequest(
-            log = LogMessage(
-                agenda = LogAgenda.DEFAULT,
-                level = LogLevel.LOG_LEVEL_ERROR,
-                message = "Please log me"
+            log=LogMessage(
+                agenda=LogAgenda.DEFAULT,
+                level=LogLevel.LOG_LEVEL_ERROR,
+                message="Please log me"
             )
-            
+
         )
-        response = self.log_service_stub.WriteLog(request)
-        return response
+        return self.log_service_stub.WriteLog(request)
 
 
 if __name__ == "__main__":

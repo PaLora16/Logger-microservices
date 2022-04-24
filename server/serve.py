@@ -6,11 +6,6 @@ from concurrent import futures
 
 import grpc
 
-from logger import module_logger
-from health_pb2_grpc import add_HealthServicer_to_server
-from servicers.health import HealthServicer
-from system_info_pb2_grpc import add_SystemInfoServicer_to_server
-from servicers.system_info import SystemInfoServicer
 from grpc_logger_pb2_grpc import add_LogServiceServicer_to_server
 from servicers.grpc_logger import WriteLogServicer
 
@@ -18,7 +13,6 @@ GRPC_MAX_WORKERS = 10
 GRPC_INSECURE_PORT = 50050
 GRPC_SECURE_PORT = 50051
 
-logger = module_logger(__name__)
 
 
 class Server(object):
@@ -27,8 +21,6 @@ class Server(object):
         self._add_servicers()
 
     def _create_server(self):
-        logger.info("Creating server")
-        logger.debug("ThreadPoolExecutor.max_workers = %s", GRPC_MAX_WORKERS)
         self._server = grpc.server(
             futures.ThreadPoolExecutor(max_workers=GRPC_MAX_WORKERS),
             options=self._server_options(),
@@ -58,37 +50,28 @@ class Server(object):
                 5000,
             ),  # allow grpc pings from client without data every x milliseconds
         )
-        logger.debug("Server options: {}".format(server_options))
         return server_options
 
     def _add_servicers(self):
-        add_HealthServicer_to_server(HealthServicer(), self._server)
-        add_SystemInfoServicer_to_server(SystemInfoServicer(), self._server)
         add_LogServiceServicer_to_server(WriteLogServicer(), self._server)
         
 
     def setup_insecure_server(self):
-        logger.info("Setting up an insecure server.")
         self._server.add_insecure_port(
             "[::]:{insecure_port}".format(insecure_port=GRPC_INSECURE_PORT)
         )
-        logger.info("Listening on [::]:%s (insecure)", GRPC_INSECURE_PORT)
 
     def serve(self):
-        logger.info("Starting server")
         self._server.start()
         try:
-            logger.info("Server ready!!!")
             while True:
                 time.sleep(86400)
         except KeyboardInterrupt:
-            logger.warn("Gracefully stopping server")
             logging.shutdown()
             self._server.stop(0)
 
 
 def handle_sigterm(*args):
-    logger.warn("SIGTERM issued")
     raise KeyboardInterrupt()
 
 
