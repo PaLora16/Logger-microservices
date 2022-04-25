@@ -14,7 +14,6 @@ GRPC_INSECURE_PORT = 50050
 GRPC_SECURE_PORT = 50051
 
 
-
 class Server(object):
     def __init__(self):
         self._create_server()
@@ -28,7 +27,8 @@ class Server(object):
 
     def _server_options(self):
         server_options = (
-            ("grpc.keepalive_time_ms", 20000),  # send keepalive every x milliseconds
+            # send keepalive every x milliseconds
+            ("grpc.keepalive_time_ms", 20000),
             (
                 "grpc.keepalive_timeout_ms",
                 5000,
@@ -54,7 +54,6 @@ class Server(object):
 
     def _add_servicers(self):
         add_LogServiceServicer_to_server(WriteLogServicer(), self._server)
-        
 
     def setup_insecure_server(self):
         self._server.add_insecure_port(
@@ -62,15 +61,9 @@ class Server(object):
         )
 
     def serve(self):
+        print("Server running....")
         self._server.start()
         self._server.wait_for_termination()
-
-        # try:
-        #     while True:
-        #         time.sleep(86400)
-        # except KeyboardInterrupt:
-        #     logging.shutdown()
-        #     self._server.stop(0)
 
 
 def handle_sigterm(*args):

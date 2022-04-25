@@ -19,6 +19,10 @@ enum LogLevel {
   LOG_LEVEL_ERROR = 2;
   LOG_LEVEL_FATAL = 3;
 }
+enum ResponseStatus {
+  STATUS_OK = 0;
+  STATUS_UNSPECIFIED_ERROR = 1;
+}
 
 
 message WriteLogRequest {
@@ -28,7 +32,8 @@ message WriteLogRequest {
 
 
 message WriteLogResponse {
-  string status = 1;
+  ResponseStatus status = 1;
+  string message = 2; 
 }
 
 
