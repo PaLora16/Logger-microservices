@@ -39,5 +39,5 @@ if __name__ == "__main__":
     write_log_client = TestClientGrpcWriteLog()
     response = write_log_client. write_log_bad_format()
    
-    if (response.status != ResponseStatus.STATUS_OK):
+    if (response.status == ResponseStatus.STATUS_OK):
         print(f"Returned value : {response.message}")
