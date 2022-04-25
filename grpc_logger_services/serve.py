@@ -63,12 +63,14 @@ class Server(object):
 
     def serve(self):
         self._server.start()
-        try:
-            while True:
-                time.sleep(86400)
-        except KeyboardInterrupt:
-            logging.shutdown()
-            self._server.stop(0)
+        self._server.wait_for_termination()
+
+        # try:
+        #     while True:
+        #         time.sleep(86400)
+        # except KeyboardInterrupt:
+        #     logging.shutdown()
+        #     self._server.stop(0)
 
 
 def handle_sigterm(*args):

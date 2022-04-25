@@ -10,3 +10,4 @@
 - gRPC
 - MongoDB
 - Prisma Client Python  
+- Pydantic settings
