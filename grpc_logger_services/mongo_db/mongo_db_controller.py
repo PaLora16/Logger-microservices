@@ -1,8 +1,8 @@
 # Writes log data to Mongo DB using
 from datetime import datetime
 
-from grpc_logger_pb2 import WriteLogRequest
 from mongo_db.mongo_db_models import LogsDocument
+from grpc_logger_pb2 import WriteLogRequest
 from mongo_db.mongo_db_services import init_db
 
 # Beanie is fully asynchronous, so we will access it from an async function
