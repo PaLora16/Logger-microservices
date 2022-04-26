@@ -1,11 +1,10 @@
 # Data models
-from dataclasses import dataclass
 from datetime import datetime
+from beanie import Document, Indexed
 
-#mnodel class retaining request data from clien
-@dataclass
-class LogDbModel:
-    agenda: int
-    level: int
+
+class LogsDocument(Document):
+    agenda: Indexed(int)
+    level: Indexed(int)
     message: str
     timestamp: datetime
