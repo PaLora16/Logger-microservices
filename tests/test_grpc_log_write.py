@@ -18,7 +18,7 @@ class TestClientGrpcWriteLog(object):
             log=LogMessage(
                 agenda=LogAgenda.DEFAULT,
                 level=LogLevel.LOG_LEVEL_ERROR,
-                message="Please log my error"
+                message="Another log"
             )
 
         )
@@ -28,7 +28,7 @@ class TestClientGrpcWriteLog(object):
             log=LogMessage(
                 agenda=LogAgenda.HEALTH_CHECK,
                 level=LogLevel.LOG_LEVEL_CRITICAL,
-                message="Please check my log error"
+                message="Another log so far"
             )
 
         )        
