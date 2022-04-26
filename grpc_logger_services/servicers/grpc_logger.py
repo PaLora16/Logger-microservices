@@ -1,7 +1,7 @@
+import asyncio
+from mongo_db.mongo_db_controller import write_log_to_db
 from grpc_logger_pb2_grpc import LogServiceServicer as grpc_LogServiceServicer
 from grpc_logger_pb2 import WriteLogResponse, WriteLogRequest, ResponseStatus
-from mongo_db.mongo_db_controller import write_log_to_db
-import asyncio
 
 class WriteLogServicer(grpc_LogServiceServicer):
     # DO NOT change metod name according to Python conventions !!

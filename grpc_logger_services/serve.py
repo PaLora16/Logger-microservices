@@ -1,11 +1,7 @@
-import logging
 import signal
-import time
-
 from concurrent import futures
 
 import grpc
-
 from grpc_logger_pb2_grpc import add_LogServiceServicer_to_server
 from servicers.grpc_logger import WriteLogServicer
 
