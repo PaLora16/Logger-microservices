@@ -5,10 +5,13 @@ import grpc
 from grpc_logger_pb2_grpc import add_LogServiceServicer_to_server
 from servicers.grpc_logger import WriteLogServicer
 
+#TODO move contants into cobfig file
 GRPC_MAX_WORKERS = 10
 GRPC_INSECURE_PORT = 50050
 GRPC_SECURE_PORT = 50051
 
+#Sever configuration constants
+#RElatively unmutable. Next enhancement can move constants into congfig fields
 
 class Server(object):
     def __init__(self):

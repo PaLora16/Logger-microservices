@@ -3,6 +3,7 @@ from mongo_db.mongo_db_controller import write_log_to_db
 from grpc_logger_pb2_grpc import LogServiceServicer as grpc_LogServiceServicer
 from grpc_logger_pb2 import WriteLogResponse, WriteLogRequest, ResponseStatus
 
+
 class WriteLogServicer(grpc_LogServiceServicer):
     # DO NOT change metod name according to Python conventions !!
     # this function overlload grpc_LogServiceServicer.WriteLog
@@ -10,17 +11,14 @@ class WriteLogServicer(grpc_LogServiceServicer):
     def WriteLog(self, request: WriteLogRequest, context):
 
         # implicit return value
-        message = "Write log OK"
         status = ResponseStatus.STATUS_OK
+        message = "Write log OK"
 
         try:
             # call DB controller for savinf log to Mongo DB
             asyncio.run(write_log_to_db(request))
         except Exception as e:
             message = str(e)
-            status = ResponseStatus.STATUS_UNSPECIFIED_ERROR
+            status = ResponseStatus.STATUS_UNSPECIFIED_ERRO
 
         return WriteLogResponse(status=status, message=message)
-    
- 
- 
