@@ -17,7 +17,7 @@ class TestClientGrpcWriteLog(object):
             log=LogMessage(
                 agenda=LogAgenda.DEFAULT,
                 level=LogLevel.LOG_LEVEL_ERROR,
-                message="Another LOg form client"
+                message="Second log form client"
             )
 
         )
@@ -26,6 +26,7 @@ class TestClientGrpcWriteLog(object):
 
 if __name__ == "__main__":
     client = TestClientGrpcWriteLog()
-    response = client.get_log_response()
-    # print(f"Response from server {response.message}")
-    print(response)
+    response: WriteLogResponse = client.get_log_response()
+    print(response.message)
+          
+

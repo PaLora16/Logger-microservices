@@ -8,6 +8,6 @@ from mongo_db.mongo_db_services import init_db
 # Beanie is fully asynchronous, so we will access it from an async function
 async def write_log_to_db(request: WriteLogRequest) -> None:
     await init_db()
-    _log = LogsDocument(
+    _logrow = LogsDocument(
         agenda=request.log.agenda, level=request.log.level, message=request.log.message, timestamp=datetime.now())
-    await _log.insert()
+    await _logrow.insert()

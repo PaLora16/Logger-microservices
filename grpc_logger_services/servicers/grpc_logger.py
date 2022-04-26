@@ -10,7 +10,7 @@ class WriteLogServicer(grpc_LogServiceServicer):
     def WriteLog(self, request: WriteLogRequest, context):
 
         # implicit return value
-        message = "OK"
+        message = "Write log OK"
         status = ResponseStatus.STATUS_OK
 
         try:
@@ -21,3 +21,6 @@ class WriteLogServicer(grpc_LogServiceServicer):
             status = ResponseStatus.STATUS_UNSPECIFIED_ERROR
 
         return WriteLogResponse(status=status, message=message)
+    
+ 
+ 

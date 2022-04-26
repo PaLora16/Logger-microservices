@@ -1,5 +1,4 @@
 # Writes log data to Mongo DB using
-
 import  motor
 from beanie import  init_beanie
 from mongo_db.mongo_db_models import LogsDocument
