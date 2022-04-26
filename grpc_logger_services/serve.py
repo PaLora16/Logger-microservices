@@ -5,13 +5,22 @@ import grpc
 from grpc_logger_pb2_grpc import add_LogServiceServicer_to_server
 from servicers.grpc_logger import WriteLogServicer
 
-#TODO move contants into cobfig file
+# TODO move contants into cobfig file
 GRPC_MAX_WORKERS = 10
 GRPC_INSECURE_PORT = 50050
 GRPC_SECURE_PORT = 50051
 
-#Sever configuration constants
-#RElatively unmutable. Next enhancement can move constants into congfig fields
+
+# Sever configuration constants
+# Relatively unmutable. Next enhancement can move constants into congfig fields
+
+KEEPALIVE_TIME_MS = 20000
+KEEPALIVE_TIMEOUT_MS = 5000
+KEEPALIVE_PERMIT_WITHOUT_CALLS = True
+MAX_PINGS_WITHOUT_DATA = 0
+MIN_TIME_BETWEEN_PINGS_MS = 10000
+MIN_PING_INTERVAL_WITHOUT_DATA_MS = 5000
+
 
 class Server(object):
     def __init__(self):
@@ -27,26 +36,26 @@ class Server(object):
     def _server_options(self):
         server_options = (
             # send keepalive every x milliseconds
-            ("grpc.keepalive_time_ms", 20000),
+            ("grpc.keepalive_time_ms", KEEPALIVE_TIME_MS),
             (
                 "grpc.keepalive_timeout_ms",
-                5000,
+                KEEPALIVE_TIMEOUT_MS,
             ),  # keepalive ping time out after x milliseconds
             (
                 "grpc.keepalive_permit_without_calls",
-                True,
+                KEEPALIVE_PERMIT_WITHOUT_CALLS,
             ),  # allow keepalive pings when there's no gRPC calls
             (
                 "grpc.http2.max_pings_without_data",
-                0,
+                MAX_PINGS_WITHOUT_DATA,
             ),  # allow unlimited amount of keepalive pings without data
             (
                 "grpc.http2.min_time_between_pings_ms",
-                10000,
+                MIN_TIME_BETWEEN_PINGS_MS,
             ),  # allow grpc pings from client every x milliseconds
             (
                 "grpc.http2.min_ping_interval_without_data_ms",
-                5000,
+                MIN_PING_INTERVAL_WITHOUT_DATA_MS,
             ),  # allow grpc pings from client without data every x milliseconds
         )
         return server_options
