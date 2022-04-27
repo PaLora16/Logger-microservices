@@ -1,3 +1,4 @@
+# Main loop listening for clients requests and
 import signal
 from concurrent import futures
 import grpc
@@ -9,7 +10,6 @@ from config.config import settings
 
 # Sever configuration constants
 # Relatively unmutable. Next enhancement can move constants into congfig fields
-
 KEEPALIVE_TIME_MS = 20000
 KEEPALIVE_TIMEOUT_MS = 5000
 KEEPALIVE_PERMIT_WITHOUT_CALLS = True
@@ -56,12 +56,13 @@ class Server(object):
         )
         return server_options
 
+    #hook client request to serving routine
     def _add_servicers(self):
         add_LogServiceServicer_to_server(WriteLogServicer(), self._server)
 
     def setup_insecure_server(self):
         self._server.add_insecure_port(
-            "[::]:{insecure_port}".format(insecure_port=settings.PORT)
+            "[::]:{port}".format(port=settings.PORT)
         )
 
     def serve(self):

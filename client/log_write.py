@@ -36,7 +36,7 @@ def run():
         # type errors checked by grpc stub
         agenda = LogAgenda.DEFAULT
         level = LogLevel.LOG_LEVEL_WARNING
-        message = "Testing log messager"
+        message = "Testing log messager "
 
         client = TestClientGrpcWriteLog()
 
