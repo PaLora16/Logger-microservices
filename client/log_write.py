@@ -1,7 +1,8 @@
 import grpc
-
 from grpc_logger_pb2_grpc import LogServiceStub
 from grpc_logger_pb2 import WriteLogRequest, WriteLogResponse, LogMessage, LogAgenda, LogLevel
+
+from config.config import settings
 
 
 class GrpcWriteLogFailed(Exception):
@@ -10,8 +11,10 @@ class GrpcWriteLogFailed(Exception):
 
 class TestClientGrpcWriteLog(object):
     def __init__(self):
-        #TODO change to config
-        self.channel = grpc.insecure_channel("localhost:50050")
+        # connection to remote host serving gRPC requests
+        _remote_host = f'{settings.HOST}:{settings.PORT}'
+
+        self.channel = grpc.insecure_channel(_remote_host)
         self.setup_stubs()
 
     def setup_stubs(self):
@@ -26,15 +29,15 @@ class TestClientGrpcWriteLog(object):
         return self.log_service_stub.WriteLog(request)
 
 
-if __name__ == "__main__":
+def run():
     try:
         # prepare log object fields
-        # log object fileds shoud be  inside try clausule as to catch variable
+        # log object fileds should be defined inside try clausule as to catch variable
         # type errors checked by grpc stub
         agenda = LogAgenda.DEFAULT
         level = LogLevel.LOG_LEVEL_WARNING
-        message = "Testing log message"
-        
+        message = "Testing log messager"
+
         client = TestClientGrpcWriteLog()
 
         response: WriteLogResponse = client.grpc_write_log(
@@ -45,4 +48,9 @@ if __name__ == "__main__":
             raise GrpcWriteLogFailed(response.message)
 
     except Exception as e:
+        # in production here sould be more realistic exceptin catching - logging etc
         print(e)
+
+
+if __name__ == "__main__":
+    run()

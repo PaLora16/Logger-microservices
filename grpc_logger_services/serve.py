@@ -1,14 +1,10 @@
 import signal
 from concurrent import futures
-
 import grpc
+
 from grpc_logger_pb2_grpc import add_LogServiceServicer_to_server
 from servicers.grpc_logger import WriteLogServicer
-
-# TODO move contants into cobfig file
-GRPC_MAX_WORKERS = 10
-GRPC_INSECURE_PORT = 50050
-GRPC_SECURE_PORT = 50051
+from config.config import settings
 
 
 # Sever configuration constants
@@ -29,7 +25,7 @@ class Server(object):
 
     def _create_server(self):
         self._server = grpc.server(
-            futures.ThreadPoolExecutor(max_workers=GRPC_MAX_WORKERS),
+            futures.ThreadPoolExecutor(max_workers=settings.MAX_WORKERS),
             options=self._server_options(),
         )
 
@@ -65,7 +61,7 @@ class Server(object):
 
     def setup_insecure_server(self):
         self._server.add_insecure_port(
-            "[::]:{insecure_port}".format(insecure_port=GRPC_INSECURE_PORT)
+            "[::]:{insecure_port}".format(insecure_port=settings.PORT)
         )
 
     def serve(self):
