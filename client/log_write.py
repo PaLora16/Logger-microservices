@@ -48,7 +48,7 @@ def run():
             raise GrpcWriteLogFailed(response.message)
 
     except Exception as e:
-        # in production here sould be more realistic exceptin catching - logging etc
+        # in production here sould be more realistic exceptin catching 
         print(e)
 
 
